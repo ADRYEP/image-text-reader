@@ -37,7 +37,7 @@ def detect_faces(image_path):
             cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0, 255, 0), 2)
 
     # Save the image with rectangles around the faces
-    cv2.imwrite("./images/detected_face.jpg", img)
+    cv2.imwrite("detected_face.jpg", img)
     return img
 
 
@@ -103,13 +103,50 @@ def read_code(image_path):
         return roi
 
 
+def read_table(image_path):
+    # Cargar la imagen
+    image = cv2.imread(image_path)
+
+    # Convertir a escala de grises
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Aplicar threshold
+    gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+
+    # Usar tesseract para extraer el texto de la imagen
+    text = pytesseract.image_to_string(gray)
+
+    # Dividir el texto por líneas
+    lines = text.split("\n")
+
+    # Crear una tabla HTML
+    html_table = "<table style='border: 1px solid black'>"
+
+    # Navegar a través de las líneas del texto
+    for line in lines:
+        html_table += "<tr>"
+        # dividir cada línea por palabra
+        words = line.split(" ")
+        for word in words:
+            html_table += "<td>" + word + "</td>"
+        html_table += "</tr>"
+
+    # Cerrar la tabla HTML
+    html_table += "</table>"
+
+    # Guardar un archivo HTML con la tabla
+    with open("table.html", "w") as file:
+        file.write(html_table)
+
+
 def main():
     while True:  # Menu options
         print("1. Convertir una imagen a texto")
         print("2. Detectar caras")
         print("3. Encuadrar imágenes")
         print("4. Leer QR")
-        print("5. Exit")
+        print("5. Leer tablas")
+        print("6. Exit")
 
         choice = input("Ingresa una opción: ")
 
@@ -130,6 +167,10 @@ def main():
                 "Introduce una dirección de imagen (debe estar dentro de la carpeta del proyecto): ")
             read_code(image_path)
         elif choice == '5':
+            image_path = input(  # Function to separate image into several parts
+                "Introduce una dirección de imagen (debe estar dentro de la carpeta del proyecto): ")
+            read_table(image_path)
+        elif choice == '6':
             break
         else:
             print("Opción inválida")
