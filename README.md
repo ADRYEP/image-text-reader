@@ -15,4 +15,6 @@ Además, hay que agregar el ejecutable a la variable path de las variables de en
 
 ### IMPORTANTE
 
-Para usar las imágenes, se puede copiar el path relativo y copiarlo en la consola
+Para usar las imágenes, se puede copiar el path relativo y copiarlo en la consola.
+
+Enlace del video: https://drive.google.com/file/d/1jVHgCQ27_2lWP0uJSrb_RW-71jgm2K9Q/view?usp=share_link
